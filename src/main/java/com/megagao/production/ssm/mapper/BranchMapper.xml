@@ -13,12 +13,12 @@
 	</select>
 	<select id="searchBranchByName" parameterType="string"
 		resultType="Branch">
-		SELECT * FROM t_branch WHERE id like
+		SELECT * FROM t_branch WHERE name like
 		CONCAT('%',#{name},'%' )
 	</select>
 	<select id="searchBranchByShortName" parameterType="string"
 		resultType="Branch">
-		SELECT * FROM t_branch WHERE id like
+		SELECT * FROM t_branch WHERE short_name like
 		CONCAT('%',#{short_name},'%' )
 	</select>
 </mapper>

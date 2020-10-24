@@ -43,8 +43,7 @@ public class BranchController {
 	public EUDataGridResult searchBranchByName(Integer page, Integer rows,
 			String searchValue) throws Exception {
 		searchValue = new String(searchValue.getBytes("ISO-8859-1"), "UTF-8");
-		System.out.println(searchValue);
-		EUDataGridResult result = branchService.searchBranchById(page, rows,
+		EUDataGridResult result = branchService.searchBranchByName(page, rows,
 				searchValue);
 		return result;
 	}
@@ -54,7 +53,7 @@ public class BranchController {
 	public EUDataGridResult searchBranchByShortName(Integer page, Integer rows,
 			String searchValue) throws Exception {
 		searchValue = new String(searchValue.getBytes("ISO-8859-1"), "UTF-8");
-		EUDataGridResult result = branchService.searchBranchById(page, rows,
+		EUDataGridResult result = branchService.searchBranchByShortName(page, rows,
 				searchValue);
 		return result;
 	}

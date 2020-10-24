@@ -62,60 +62,8 @@
 	iconCls:'icon-save',href:'branch/add'" style="width:65%;height:80%;padding:10px;">
 </div>
 
-<div id="branchProductInfo" class="easyui-dialog" title="产品信息" data-options="modal:true,closed:true,resizable:true,
-		iconCls:'icon-save'" style="width:65%;height:80%;padding:10px;">
-	<form id="branchProductEditForm" method="post">
-		<input type="hidden" name="productId"/>
-	    <table cellpadding="5">
-	        <tr>
-	            <td>产品名称:</td>
-	            <td><input class="easyui-textbox" type="text" name="productName" data-options="required:true"/></td>
-	        </tr>
-	        <tr>
-	            <td>产品种类:</td>
-	            <td><input class="easyui-textbox" type="text" name="productType" data-options="required:true"/></td>
-	        </tr>
-	        <tr>
-	            <td>产品状态:</td>
-	            <td>
-		            <select id="cc" class="easyui-combobox" name="status" data-options="required:true,width:150">
-						<option value="1">有效产品</option>
-						<option value="2">停产</option>
-					</select>
-				</td>
-	        </tr>
-	        <tr>
-	            <td>相关图片:</td>
-	            <td>
-	            <div style="padding-top: 12px"><span id="branchProductPicSpan"></span></div>
-	                 <input type="hidden" class="easyui-linkbutton branchProductPic" name="image"/>
-	            </td>
-	        </tr>
-	        <tr>
-	            <td>产品介绍:</td>
-	            <td><textarea style="width:800px;height:300px;visibility:hidden;" name="note"></textarea></td>
-	        </tr>
-	    </table>
-	</form>
-	<div style="padding:5px">
-	    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitbranchProductEditForm()">提交</a>
-	</div>
-</div>
-<div id="branchNoteDialog" class="easyui-dialog" title="机构要求" data-options="modal:true,closed:true,resizable:true,
-		iconCls:'icon-save'" style="width:55%;height:65%;padding:10px">
-	<form id="branchNoteForm" class="itemForm" method="post">
-		<input type="hidden" name="branchId"/>
-	    <table cellpadding="5" >
-	        <tr>
-	            <td>备注:</td>
-	            <td><textarea style="width:800px;height:450px;visibility:hidden;" name="note"></textarea></td>
-	        </tr>
-	    </table>
-	</form>
-	<div style="padding:5px">
-	    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="updatebranchNote()">保存</a>
-	</div>
-</div>
+
+
 <script>
 function doSearch_branch(value,name){ //用户输入用户名,点击搜素,触发此函数  
 	if(value == null || value == ''){
@@ -128,7 +76,7 @@ function doSearch_branch(value,name){ //用户输入用户名,点击搜素,触�
 				{field : 'ck', checkbox:true },
 				{field : 'id', width : 100, align:'center', title : '机构编号'},
 				{field : 'name', width : 100, align:'center', title : '机构名称'},
-				{field : 'short_name', width : 100, align:'center', title : '机构简称'},
+				{field : 'short_name', width : 100, align:'center', title : '机构简称'}
 	        ] ],  
 	    });
 	}else{
@@ -140,8 +88,8 @@ function doSearch_branch(value,name){ //用户输入用户名,点击搜素,触�
 	             	{field : 'ck', checkbox:true }, 
 	             	{field : 'id', width : 100, title : '机构编号', align:'center'},
 	             	{field : 'name', width : 100, title : '机构名称', align:'center'},
-	             	{field : 'short_name', width : 100, title : '机构简称', align:'center'},
-	        ] ],  
+	             	{field : 'short_name', width : 100, title : '机构简称', align:'center'}
+	        ] ],
 	    });
 	}
 }
@@ -316,43 +264,6 @@ function doSearch_branch(value,name){ //用户输入用户名,点击搜素,触�
     	});
 	}
 	
-	//打开机构要求富文本编辑器对话框
-	function  openbranchNote(index){ 
-		var row = onbranchClickRow(index);
-		$("#branchNoteDialog").dialog({
-    		onOpen :function(){
-    			$("#branchNoteForm [name=branchId]").val(row.branchId);
-    			branchNoteEditor = TAOTAO.createEditor("#branchNoteForm [name=note]");
-    			branchNoteEditor.html(row.note);
-    		},
-		
-			onBeforeClose: function (event, ui) {
-				// 关闭Dialog前移除编辑器
-			   	KindEditor.remove("#branchNoteForm [name=note]");
-			}
-    	}).dialog("open");
-		
-	};
-	
-	//更新机构要求
-	function updatebranchNote(){
-		$.get("branch/edit_judge",'',function(data){
-    		if(data.msg != null){
-    			$.messager.alert('提示', data.msg);
-    		}else{
-    			branchNoteEditor.sync();
-    			$.post("branch/update_note",$("#branchNoteForm").serialize(), function(data){
-    				if(data.status == 200){
-    					$("#branchNoteDialog").dialog("close");
-    					$("#branchList").datagrid("reload");
-    					$.messager.alert("操作提示", "更新机构要求成功！");
-    				}else{
-    					$.messager.alert("操作提示", "更新机构要求失败！");
-    				}
-    			});
-    		}
-    	});
-	}
 	
     function getbranchSelectionsIds(){
     	var branchList = $("#branchList");
@@ -396,21 +307,9 @@ function doSearch_branch(value,name){ //用户输入用户名,点击搜素,触�
                		onLoad :function(){
                			//回显数据
                			var data = $("#branchList").datagrid("getSelections")[0];
-               			data.customId = data.custom.customId; 
-               			data.productId = data.product.productId; 
-               			data.branchDate = TAOTAO.formatDateTime(data.branchDate);
-               			data.requestDate = TAOTAO.formatDateTime(data.requestDate);
                			$("#branchEditForm").form("load", data);
                			branchEditEditor.html(data.note);
                			
-               			TAOTAO.init({
-               				"pics" : data.image,
-               			});
-               			
-               			//加载文件上传插件
-               			initbranchEditFileUpload();
-               			//加载上传过的文件
-               			initUploadedFile();
                		}
                	}).window("open");
        		}
