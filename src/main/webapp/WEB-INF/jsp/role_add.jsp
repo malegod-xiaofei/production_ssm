@@ -136,6 +136,14 @@
 			<label><input name="permissionOption2" type="checkbox" value="262" />设备维修修改 </label> 
 			<label><input name="permissionOption2" type="checkbox" value="263" />设备维修删除 </label> 
 			<br><br>
+			
+			<span style="font-weight: bold;">机构管理：</span>
+			<label><input name="permissionOption2" type="checkbox" value="275" />机构新增 </label> 
+			<label><input name="permissionOption2" type="checkbox" value="276" />机构修改 </label> 
+			<label><input name="permissionOption2" type="checkbox" value="277" />机构删除 </label> 
+			<br><br>
+			
+			
 			<span style="font-weight: bold;">部门管理：</span>
 			<label><input name="permissionOption2" type="checkbox" value="41" />部门新增 </label> 
 			<label><input name="permissionOption2" type="checkbox" value="42" />部门修改 </label> 

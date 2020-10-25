@@ -24,117 +24,124 @@ public class RoleController {
 
 	@Autowired
 	private RoleService roleService;
-	
+
 	@RequestMapping("/get/{roleId}")
 	@ResponseBody
-	public RoleVO getItemById(@PathVariable String roleId) throws Exception{
+	public RoleVO getItemById(@PathVariable String roleId) throws Exception {
 		RoleVO sysRole = roleService.get(roleId);
 		return sysRole;
 	}
-	
+
 	@RequestMapping("/find")
-	public String find() throws Exception{
+	public String find() throws Exception {
 		return "role_list";
 	}
-	
+
 	@RequestMapping("/permission")
-	public String permission() throws Exception{
+	public String permission() throws Exception {
 		return "role_permission";
 	}
-	
+
 	@RequestMapping("/get_data")
 	@ResponseBody
-	public List<RoleVO> getData() throws Exception{
+	public List<RoleVO> getData() throws Exception {
 		return roleService.find();
 	}
-	
+
 	@RequestMapping("/add")
-	public String add() throws Exception{
+	public String add() throws Exception {
 		return "role_add";
 	}
-	
+
 	@RequestMapping("/edit")
-	public String edit() throws Exception{
+	public String edit() throws Exception {
 		return "role_edit";
 	}
-	
+
 	@RequestMapping("/list")
 	@ResponseBody
-	public EUDataGridResult getItemList(Integer page, Integer rows, RoleVO role) throws Exception{
+	public EUDataGridResult getItemList(Integer page, Integer rows, RoleVO role)
+			throws Exception {
 		EUDataGridResult result = roleService.getList(page, rows, role);
 		return result;
 	}
-	
-	@RequestMapping(value="/insert", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/insert", method = RequestMethod.POST)
 	@ResponseBody
-	private CustomResult insert(@Valid SysRole role, BindingResult bindingResult) throws Exception {
+	private CustomResult insert(@Valid SysRole role, BindingResult bindingResult)
+			throws Exception {
 		CustomResult result;
-		if(bindingResult.hasErrors()){
+		if (bindingResult.hasErrors()) {
 			FieldError fieldError = bindingResult.getFieldError();
 			return CustomResult.build(100, fieldError.getDefaultMessage());
 		}
-		if(roleService.findByRoleNameAndId(role.getRoleName(), role.getRoleId()).size()>0){
+		if (roleService.findByRoleNameAndId(role.getRoleName(),
+				role.getRoleId()).size() > 0) {
 			result = new CustomResult(0, "该角色名已经存在，请更换角色名！", null);
-		}else if(roleService.get(role.getRoleId()) != null){
+		} else if (roleService.get(role.getRoleId()) != null) {
 			result = new CustomResult(0, "该角色编号已经存在，请更换角色编号！", null);
-		}else{
+		} else {
 			result = roleService.insert(role);
 		}
 		return result;
 	}
-	
-	@RequestMapping(value="/update")
+
+	@RequestMapping(value = "/update")
 	@ResponseBody
 	private CustomResult update(SysRole role) throws Exception {
 		CustomResult result = roleService.update(role);
 		return result;
 	}
-	
-	@RequestMapping(value="/update_all")
+
+	@RequestMapping(value = "/update_all")
 	@ResponseBody
-	private CustomResult updateAll(@Valid SysRole role, BindingResult bindingResult) throws Exception {
+	private CustomResult updateAll(@Valid SysRole role,
+			BindingResult bindingResult) throws Exception {
 		CustomResult result;
-		if(bindingResult.hasErrors()){
+		if (bindingResult.hasErrors()) {
 			FieldError fieldError = bindingResult.getFieldError();
 			return CustomResult.build(100, fieldError.getDefaultMessage());
 		}
-		if(roleService.findByRoleNameAndId(role.getRoleName(), role.getRoleId()).size()>0){
+		if (roleService.findByRoleNameAndId(role.getRoleName(),
+				role.getRoleId()).size() > 0) {
 			result = new CustomResult(0, "该角色名已经存在，请更换角色名！", null);
-		}else if(roleService.get(role.getRoleId()) != null){
-			result = new CustomResult(0, "该角色编号已经存在，请更换角色编号！", null);
-		}else{
+		} else {
 			result = roleService.updateAll(role);
 		}
 		return result;
 	}
-	
-	@RequestMapping(value="/delete")
+
+	@RequestMapping(value = "/delete")
 	@ResponseBody
 	private CustomResult delete(String id) throws Exception {
 		CustomResult result = roleService.delete(id);
 		return result;
 	}
-	
-	@RequestMapping(value="/delete_batch")
+
+	@RequestMapping(value = "/delete_batch")
 	@ResponseBody
 	private CustomResult deleteBatch(String[] ids) throws Exception {
 		CustomResult result = roleService.deleteBatch(ids);
 		return result;
 	}
-	
-	//根据角色id查找
+
+	// 根据角色id查找
 	@RequestMapping("/search_role_by_roleId")
 	@ResponseBody
-	public EUDataGridResult searchRoleByRoleId(Integer page, Integer rows, String searchValue) throws Exception{
-		EUDataGridResult result = roleService.searchRoleByRoleId(page, rows, searchValue);
+	public EUDataGridResult searchRoleByRoleId(Integer page, Integer rows,
+			String searchValue) throws Exception {
+		EUDataGridResult result = roleService.searchRoleByRoleId(page, rows,
+				searchValue);
 		return result;
 	}
-	
-	//根据角色名查找
+
+	// 根据角色名查找
 	@RequestMapping("/search_role_by_roleName")
 	@ResponseBody
-	public EUDataGridResult searchRoleByRoleName(Integer page, Integer rows, String searchValue) throws Exception{
-		EUDataGridResult result = roleService.searchRoleByRoleName(page, rows, searchValue);
+	public EUDataGridResult searchRoleByRoleName(Integer page, Integer rows,
+			String searchValue) throws Exception {
+		EUDataGridResult result = roleService.searchRoleByRoleName(page, rows,
+				searchValue);
 		return result;
 	}
 }
